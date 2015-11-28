@@ -231,25 +231,6 @@ module Prawn
       end
     end
 
-    module XYOffsets
-      def fillform_x_offset
-        @fillform_x_offset ||= 2
-      end
-
-      def fillform_y_offset
-        @fillform_y_offset ||= -1
-      end
-
-      def set_fillform_xy_offset(x_offset, y_offset)
-        @fillform_x_offset = x_offset
-        @fillform_y_offset = y_offset
-      end
-
-      def use_adobe_xy_offsets!
-        set_fillform_xy_offset(2, -40)
-      end
-    end
-
     def acroform_field_names
       result = []
       acroform_fields.each do |page, fields|
@@ -316,14 +297,18 @@ module Prawn
       value
     end
 
-    def fill_form_page_with(data={})
+    # Found by manual adjustment until it looked right.
+    FILLFORM_X_OFFSET = -34
+    FILLFORM_Y_OFFSET = -38
+
+    def fill_form_page_with(data, x_offset: FILLFORM_X_OFFSET, y_offset: FILLFORM_Y_OFFSET)
       acroform_fields_for_page(page).each do |field|
         value = fetch_field_attribute(data, page, field.name, :value)
         if value
           options = fetch_field_attribute(data, page, field.name, :options) || {}
           value = value.to_s
-          x_offset = options[:x_offset] || self.class.fillform_x_offset
-          y_offset = options[:y_offset] || self.class.fillform_y_offset
+          x_offset = options[:x_offset] || x_offset
+          y_offset = options[:y_offset] || y_offset
           x_position = field.x + x_offset
           y_position = field.y + y_offset
           width = options[:width] || field.width
@@ -400,5 +385,4 @@ module Prawn
 end
 
 require 'prawn/document'
-Prawn::Document.extend Prawn::Fillform::XYOffsets
 Prawn::Document.send(:include, Prawn::Fillform)
