@@ -384,12 +384,9 @@ module Prawn
     end
 
     def fill_form_with(data={})
-      acroform_fields.each do |page, fields|
-        fields.each do |field|
-          number = page.to_s.split("_").last.to_i
-          go_to_page(number)
-          fill_form_page_with(data)
-        end
+      state.pages.length.times do |number|
+        go_to_page(number)
+        fill_form_page_with(data)
       end
 
       remove_form_fields
