@@ -247,6 +247,7 @@ module Prawn
         page_number = "page_#{i+1}".to_sym
         acroform[page_number] = acroform_fields_for_page(page)
       end
+      acroform
     end
 
     def acroform_fields_for_page(page)
@@ -369,7 +370,7 @@ module Prawn
     end
 
     def fill_form_with(data={})
-      state.pages.length.times do |number|
+      state.pages.each_index do |number|
         go_to_page(number)
         fill_form_page_with(data)
       end
