@@ -129,9 +129,9 @@ module Prawn
       end
 
       DEFAULT_PDF_FONT_FACES = {
-        'Cour' => 'Courier',
-        'Helv' => 'Helvetica',
-        'TiRo' => 'Times-Roman'
+        Cour: 'Courier',
+        Helv: 'Helvetica',
+        TiRo: 'Times-Roman'
       }
 
       def font_face
