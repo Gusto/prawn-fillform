@@ -313,7 +313,6 @@ module Prawn
           width = options[:width] || field.width
           height = options[:height] || field.height
           overflow = options[:overflow]
-          disable_wrap_by_char = options[:disable_wrap_by_char]
 
           if field.type == :text
             fill_color options[:font_color] || field.font_color
@@ -354,8 +353,7 @@ module Prawn
                 :valign => options[:valign] || :center,
                 :size => size,
                 :style => style,
-                :overflow => overflow,
-                :disable_wrap_by_char => disable_wrap_by_char
+                :overflow => overflow
             end
           elsif field.type == :checkbox
             is_yes = (v = value.downcase) == "yes" || v == "1" || v == "true"
